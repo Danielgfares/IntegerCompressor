@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CompressIntegers:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/CompressIntegers_jar</output-path>
+    <root id="archive" name="CompressIntegers.jar">
+      <element id="module-output" name="CompressIntegers" />
+    </root>
+  </artifact>
+</component>
