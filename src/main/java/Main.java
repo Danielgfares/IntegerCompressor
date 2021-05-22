@@ -2,6 +2,18 @@ package main.java;
 
 public class Main {
 
+    /**
+     * console program
+     * options
+     *      -c initiate compressor program
+     *          receives two file - file1: file that contain data to compress
+     *                              file2: file or name of file where to to save compressed data
+     *
+     *      -d initiate decompressor program
+     *          receives two file - file1: file that contain data to decompress
+     *                                     file2: file or name of file where to to save data decompressed
+     * @param args -c/d file1 file2
+     */
     public static void main(String[] args) {
         // write your code here
         String file1 = null;
