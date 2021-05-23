@@ -26,7 +26,8 @@ public class IntegerArrayCompressor {
     }
 
     /**
-     * in case the user prefier to use little endian instead of the default methode
+     * In case the user prefers to use little endian instead of the default method
+     *
      * @param e value 0 for default and any other decimal value for little endian
      */
     public void setIntegerBytesRepresentation(int e) {
@@ -37,24 +38,16 @@ public class IntegerArrayCompressor {
         }
     }
 
-    public void startProgram() {
+    public void startProgram() throws IOException {
         if (this.d == 0) {
-            try {
-                this.startProgramCompressor();
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
-            }
+            this.startProgramCompressor();
         } else {
-            try {
-                this.startProgramDecompressor();
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
-            }
+            this.startProgramDecompressor();
         }
     }
 
     /**
-     * Main methode to compress a data from a file
+     * Main method to compress a data from a file
      *
      * @throws IOException
      */
@@ -63,7 +56,11 @@ public class IntegerArrayCompressor {
         int[] dataToCompress;
         FileOutputStream fos;
         // open and read integer from file1
-        dataToCompress = readFileIntegers();
+        try {
+            dataToCompress = readFileIntegers();
+        } catch (Exception e) {
+            throw new IOException(e.getMessage());
+        }
 
         try {
             fos = new FileOutputStream(this.file2);
@@ -93,11 +90,12 @@ public class IntegerArrayCompressor {
     }
 
     /**
-     * read file of integers separated with comma
+     * Read file of integers separated with comma
+     *
      * @return array od int
      * @throws IOException while opening, reading and closing file1
      */
-    private int[] readFileIntegers() throws IOException {
+    private int[] readFileIntegers() throws Exception {
         FileReader fileReader;
         BufferedReader reader;
         int[] readiedData = null;
@@ -109,22 +107,23 @@ public class IntegerArrayCompressor {
                 while ((line = reader.readLine()) != null) {
                     readiedData = Arrays.stream(line.split(",")).mapToInt(Integer::parseInt).toArray();
                 }
-            } catch (IOException e) {
-                throw new IOException(
-                        String.format("Exception occurred while trying to read line from '%s'.\n", this.file1));
+            } catch (Exception e) {
+                throw new Exception(String.format("Exception occurred while trying to read line from '%s'.\n", this.file1));
             } finally {
                 reader.close();
             }
+            return readiedData;
         } catch (FileNotFoundException e) {
             throw new IOException(String.format("Exception occurred while trying to open '%s'.\n", this.file1));
         } catch (IOException e) {
             throw new IOException(String.format("Exception occurred while trying to close '%s'.\n", this.file1));
         }
-        return readiedData;
+
     }
 
     /**
-     * convert int to byte and compress it with deflater and finally write it to a file
+     * Convert int to byte and compress it with deflater and finally write it to a file
+     *
      * @param number number to compress
      * @throws IOException deflater output stream
      */
@@ -135,7 +134,8 @@ public class IntegerArrayCompressor {
 
     /**
      * convert int to bytes
-     * @param number number to convert
+     *
+     * @param number     number to convert
      * @param endianness decides the order of bytes
      * @return array of bytes with size of int
      */
@@ -161,6 +161,7 @@ public class IntegerArrayCompressor {
 
     /**
      * Main methode to compress a data from a file
+     *
      * @throws IOException
      */
     public void startProgramDecompressor() throws IOException {
@@ -210,6 +211,7 @@ public class IntegerArrayCompressor {
     /**
      * read bytes from file
      * uses an inflater to decompress the readied data
+     *
      * @return return an array of ints
      */
     private int[] readFileBytes() {
@@ -232,7 +234,8 @@ public class IntegerArrayCompressor {
     }
 
     /**
-     *  read an int from file
+     * read an int from file
+     *
      * @return readied int
      * @throws IOException
      */
@@ -245,6 +248,7 @@ public class IntegerArrayCompressor {
 
     /**
      * make sure that 4 bytes where readied
+     *
      * @param numBytes number of bytes to read
      * @return array of bytes with size of 4
      * @throws IOException
@@ -266,7 +270,8 @@ public class IntegerArrayCompressor {
 
     /**
      * convert 4 bytes to int
-     * @param bytes array of bytes with size 4
+     *
+     * @param bytes      array of bytes with size 4
      * @param endianness order of bytes
      * @return int
      */

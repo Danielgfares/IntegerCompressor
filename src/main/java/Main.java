@@ -37,15 +37,15 @@ public class Main {
                             error = true;
                         }
                     }
-                } else if ( index == 1) {
+                } else if (index == 1) {
                     file1 = args[1];
-                } else if ( index == 2 ) {
+                } else if (index == 2) {
                     file2 = args[2];
                 }
                 index++;
             } while (!error && index < args.length);
 
-            if (error){
+            if (error) {
                 print_help();
             } else {
                 try {
@@ -62,8 +62,6 @@ public class Main {
     public static void print_help() {
         System.out.println("Java –jar compressor.jar –[c/d] file1 file2");
     }
-
-
 
 }
 
