@@ -53,14 +53,13 @@ public class Main {
                     program.startProgram();
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
-                    print_help();
                 }
             }
         }
     }
 
     public static void print_help() {
-        System.out.println("Java –jar compressor.jar –[c/d] file1 file2");
+        System.out.println("Please try: \nJava –jar compressor.jar –[c/d] file1 file2");
     }
 
 }

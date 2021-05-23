@@ -55,12 +55,6 @@ public class IntegerArrayCompressor {
 
         int[] dataToCompress;
         FileOutputStream fos;
-        // open and read integer from file1
-        try {
-            dataToCompress = readFileIntegers();
-        } catch (Exception e) {
-            throw new IOException(e.getMessage());
-        }
 
         try {
             fos = new FileOutputStream(this.file2);
@@ -71,10 +65,17 @@ public class IntegerArrayCompressor {
         // use a deflater to compress data with buffer size of 4069
         this.dos = new DeflaterOutputStream(fos, new Deflater(Deflater.DEFAULT_COMPRESSION, true), 4096, true);
 
+        // open and read integer from file1
+        try {
+            dataToCompress = readFileIntegers();
+        } catch (Exception e) {
+            throw new IOException(e.getMessage());
+        }
+
         try {
             // compress and write data to file2
             for (int datum : dataToCompress) {
-                write_int32(datum);
+                writeInt32(datum);
             }
         } catch (IOException e) {
             throw new IOException(e.getMessage());
@@ -127,7 +128,7 @@ public class IntegerArrayCompressor {
      * @param number number to compress
      * @throws IOException deflater output stream
      */
-    private void write_int32(int number) throws IOException {
+    private void writeInt32(int number) throws IOException {
         byte[] bytes = int32ToBytes(number, endianness);
         dos.write(bytes, 0, 4);
     }
@@ -221,7 +222,7 @@ public class IntegerArrayCompressor {
         do {
             try {
                 // keep reading while there is data
-                decompressedInteger = read_int32();
+                decompressedInteger = readInt32();
                 // add int to the list
                 integers.add(decompressedInteger);
             } catch (IOException e) {
@@ -239,9 +240,9 @@ public class IntegerArrayCompressor {
      * @return readied int
      * @throws IOException
      */
-    private int read_int32() throws IOException {
+    private int readInt32() throws IOException {
         // read four bytes
-        byte[] bytes = read_bytes(4);
+        byte[] bytes = readBytes(4);
         // convert to int
         return bytesToInt32(bytes, endianness);
     }
@@ -253,7 +254,7 @@ public class IntegerArrayCompressor {
      * @return array of bytes with size of 4
      * @throws IOException
      */
-    private byte[] read_bytes(int numBytes) throws IOException {
+    private byte[] readBytes(int numBytes) throws IOException {
         int len = 0;
         byte[] b = new byte[numBytes];
         int bytesRead;
